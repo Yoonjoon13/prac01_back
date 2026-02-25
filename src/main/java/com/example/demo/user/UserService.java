@@ -34,11 +34,16 @@ public class UserService implements UserDetailsService {
 
         User user = dto.toEntity();
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setEnable(false);
         userRepository.save(user);
 
         // 메일 전송
         String uuid = UUID.randomUUID().toString();
-        emailService.sendWelcomeMail(uuid, dto.getEmail());
+        try {
+            emailService.sendWelcomeMail(uuid, dto.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // 메일 전송 내역 저장
         EmailVerify emailVerify = EmailVerify.builder().email(dto.getEmail()).uuid(uuid).build();

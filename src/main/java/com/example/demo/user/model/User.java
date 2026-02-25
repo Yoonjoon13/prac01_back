@@ -1,10 +1,10 @@
 package com.example.demo.user.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.demo.board.model.Board;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,9 +17,14 @@ public class User {
     private Long idx;
     private String email;
     private String name;
-    @Setter
-    private String password;
+    @Column(name = "enable")
     @Setter
     private boolean enable;
+
+    @OneToMany(mappedBy = "user")
+    private List<Board> boardList;
+
+    @Setter
+    private String password;
     private String role;
 }
