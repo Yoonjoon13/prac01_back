@@ -62,7 +62,12 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 (auth) -> auth
                         .requestMatchers("/user/login", "/user/signup", "/user/verify").permitAll()
-                        .requestMatchers("/board/reg").authenticated()
+                        .requestMatchers(
+                                "/board/reg",
+                                "/reply/reg",
+                                "/reply/update/**",
+                                "/reply/delete/**"
+                        ).authenticated()
                         .anyRequest().permitAll()
         );
 
