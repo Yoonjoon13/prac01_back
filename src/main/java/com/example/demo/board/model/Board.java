@@ -1,12 +1,16 @@
 package com.example.demo.board.model;
 
 import com.example.demo.common.model.BaseEntity;
+import com.example.demo.likes.model.Likes;
+import com.example.demo.reply.model.Reply;
 import com.example.demo.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Builder
 @Getter
@@ -20,10 +24,15 @@ public class Board extends BaseEntity {
     private String title;
     private String contents;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_author")
+    @JoinColumn(name = "user_idx")
     private User user;
+
+    @OneToMany(mappedBy = "board")
+    List<Reply> replyList;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    List<Likes> likesList;
 
     public void update(BoardDto.RegReq dto) {
         this.title = dto.getTitle();
